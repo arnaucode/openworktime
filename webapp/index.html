@@ -1,0 +1,156 @@
+
+  <!DOCTYPE html>
+  <html ng-app="workApp">
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="fonts/icons.css" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
+
+      <link type="text/css" rel="stylesheet" href="own.css"/>
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <title>Open Work Time</title>
+
+      <!-- ANGULAR -->
+      <script src="libraries/angular.min.js"></script>
+
+    </head>
+
+    <body ng-controller="workController as work">
+
+
+        <nav>
+          <div class="nav-wrapper green lighten-2">
+              <a href="#" class="brand-logo">Open Work Time</a>
+              <ul id="nav-mobile" class="right">
+                <li>
+                    <a ng-click="openCode()" target="_blank">
+                        <i class="large material-icons" title="Visit code">code</i>
+                    </a>
+                </li>
+                <li>
+                    <a ng-click="deleteStorage()">
+                        <i class="large material-icons" title="Delete storage">info_outline</i>
+                    </a>
+                </li>
+                <li>
+                    <a ng-click="saveStorage()" title="Save all to storage">
+                        <i class="large material-icons">perm_identity</i>
+                    </a>
+                </li>
+              </ul>
+          </div>
+        </nav>
+
+        <div class="">
+            <div class="row">
+                <div class="card green lighten-5 col s12 m5 l5">
+                    <div class="card-content">
+                        <span class="card-title">Projects</span>
+                        <ul class="collection">
+                          <li class="collection-item avatar green lighten-5">
+                              <img src="img/webicons/modeling.png" class="circle"/>
+                              <span class="title">Piratel</span>
+                              <span class="badge">14h</span>
+                              <p class="grey-text">User1, User2</p>
+                          </li>
+                          <li class="collection-item avatar green lighten-4">
+                              <img src="img/webicons/smartphone.png" class="circle"/>
+                              <span class="title">CarsharingApp Frontend</span>
+                              <span class="badge">10h 34min</span>
+                              <p class="grey-text">User4, User3</p>
+                          </li>
+                          <li class="collection-item avatar green lighten-5">
+                              <img src="img/webicons/browser-4.png" class="circle"/>
+                              <span class="title">CarsharingApp Backend</span>
+                              <span class="badge">11h 20min</span>
+                              <p class="grey-text">User1, User2</p>
+                          </li>
+                          <li class="collection-item avatar green lighten-5">
+                              <img src="img/webicons/coding.png" class="circle"/>
+                              <span class="title">OpenWorkTime</span>
+                              <span class="badge">2h 15min</span>
+                              <p class="grey-text">User1, User2, User3, User4</p>
+                          </li>
+                          <li class="collection-item avatar green lighten-5">
+                              <img src="img/webicons/devices-1.png" class="circle"/>
+                              <span class="title">WebPrimusTech</span>
+                              <span class="badge">0h</span>
+                              <p class="grey-text">no workers</p>
+                          </li>
+                        </ul>
+                    </div>
+                    <div class="card-action">
+                        <a class="waves-effect waves-light btn green lighten-3">Add new project</a>
+                    </div>
+                </div>
+
+                <div class="card green lighten-4 col s12 m7 l7">
+                    <div class="card-content">
+                        <span class="card-title">CarsharingApp Frontend</span>
+                        <p>
+                            project github: <a href="#">https://github.com/idoctnef/collectivecarApp</a>
+                        </p>
+                        <p>
+                            project Taigan: <a href="#">https://github.com/idoctnef/collectivecarApp</a>
+                        </p>
+                        <p>
+                            Total time: 10h 34min
+                        </p>
+                        <p>
+                            Current strike time: <b>10h 34min</b>
+                        </p>
+
+                    </div>
+                    <div class="card-action">
+                        <a class="waves-effect waves-light btn green lighten-2">Work!</a>
+
+                        <!--<a class="waves-effect waves-light btn deep-orange lighten-2">Stop working!</a>-->
+                    </div>
+                </div>
+
+                <div class="card green lighten-5 col s12 m7 l7">
+                    <div class="card-content">
+                        <span class="card-title">Workers</span>
+                        <p>
+                            <div class="o_worker_avatar_card">
+                                <img src="img/avatars/duck.png" class="o_worker_avatar_img"/>
+                                <p class="grey-text text-darken-1">User1</p>
+                            </div>
+                            <div class="o_worker_avatar_card">
+                                <img src="img/avatars/racoon.png" class="o_worker_avatar_img"/>
+                                <p class="grey-text text-darken-1">User2</p>
+                            </div>
+                            <div class="o_worker_avatar_card">
+                                <img src="img/avatars/tiger.png" class="o_worker_avatar_img"/>
+                                <p class="grey-text text-darken-1">User3</p>
+                            </div>
+                            <div class="o_worker_avatar_card">
+                                <img src="img/avatars/crab.png" class="o_worker_avatar_img"/>
+                                <p class="grey-text text-darken-1">User4</p>
+                            </div>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+      <!--Import jQuery before materialize.js-->
+      <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+      <script type="text/javascript" src="js/materialize.min.js"></script>
+
+      <script src="controllers.js"></script>
+
+      <script src="libraries/toastr.js"></script>
+      <link type="text/css" rel="stylesheet" href="libraries/toastr.css"/>
+
+
+
+
+    </body>
+  </html>

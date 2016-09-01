@@ -1,0 +1,17 @@
+{
+  "name": "openworktime",
+  "version": "0.0.1",
+  "description": "openworktime, time traking app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "latest",
+    "express": "^4.7.1",
+    "jsonwebtoken": "latest",
+    "method-override": "^2.1.2",
+    "mongoose": "latest",
+    "morgan": "latest"
+  }
+}

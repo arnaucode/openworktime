@@ -1,0 +1,10 @@
+.o_worker_avatar_img{
+    width: 70px;
+    display: block;
+}
+
+.o_worker_avatar_card{
+    width: 100px;
+    display: inline-block;
+    text-align: center;
+}

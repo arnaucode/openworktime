@@ -1,5 +1,5 @@
 
-angular.module('workApp', [])
+angular.module('workApp', ['chart.js'])
   .controller('workController', function(
         $scope,
         $interval
@@ -16,11 +16,21 @@ angular.module('workApp', [])
     if($scope.projects.length>0)
     {
         $scope.newproject={
-            id: $scope.projects[$scope.projects.length-1].id+1
+            id: $scope.projects[$scope.projects.length-1].id+1,
+            chart: {
+                labels: [],
+                series: ['Working time'],
+                data: []
+            }
         };
     }else{
         $scope.newproject={
-            id: 0
+            id: 0,
+            chart: {
+                labels: [],
+                series: ['Working time'],
+                data: []
+            }
         };
     }
     //$scope.newproject.id=$scope.projects[$scope.projects.length-1].id+1;
@@ -29,7 +39,12 @@ angular.module('workApp', [])
         $scope.projects.push($scope.newproject);
         localStorage.setItem("w_l_projects", angular.toJson($scope.projects));
         $scope.newproject={
-            id: $scope.projects[$scope.projects.length-1].id+1
+            id: $scope.projects[$scope.projects.length-1].id+1,
+            chart: {
+                labels: [],
+                series: ['Working time'],
+                data: []
+            }
         };
     };
     $scope.editingIndex="";
@@ -48,6 +63,7 @@ angular.module('workApp', [])
     $scope.removeProject = function(index){
         $scope.projects.splice(index, 1);
         localStorage.setItem("w_l_projects", angular.toJson($scope.projects));
+        $scope.projectSelect(0);
     };
     $scope.projectSelect = function(index){
         $scope.btnStop();
@@ -66,8 +82,15 @@ angular.module('workApp', [])
     };
     $scope.btnStop = function(){
         $interval.cancel(interval);
-        $scope.working=false;
-        localStorage.setItem("w_l_projects", angular.toJson($scope.projects));
+        if($scope.working==true)
+        {
+            $scope.working=false;
+            $scope.currentproject.chart.labels.push("work strike " + $scope.currentproject.chart.labels.length);
+            $scope.currentproject.chart.data.push($scope.currentStrike);
+
+            localStorage.setItem("w_l_projects", angular.toJson($scope.projects));
+        }
+
 
     }
 
@@ -83,6 +106,16 @@ angular.module('workApp', [])
             window.open(urlCode);
         }
     };
+
+    //chart
+    /*$scope.chart={
+        labels: ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
+        series: ['Working time', 'Series B'],
+        data: [
+            [65, 59, 80, 81, 56, 55, 40],
+            [28, 48, 40, 19, 86, 27, 90]
+        ]
+    };*/
 
   })
 

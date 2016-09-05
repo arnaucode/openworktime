@@ -10,7 +10,7 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1100, height: 650})
+  mainWindow = new BrowserWindow({width: 1100, height: 800})
 
   mainWindow.setMenu(null);
 

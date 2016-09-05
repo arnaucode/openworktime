@@ -12,3 +12,9 @@
     display: inline-block;
     text-align: center;
 }
+.o_trash_icon{
+    width: 20px;
+}
+.o_float_right{
+    float: right;
+}

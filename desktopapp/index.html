@@ -23,7 +23,7 @@
 
         <nav>
           <div class="nav-wrapper blue-grey darken-1">
-              <a href="#" class="brand-logo">Open Work Time - local version</a>
+              <a href="#" class="brand-logo">Open Work Time <small>- offline version</small></a>
               <ul id="nav-mobile" class="right">
                 <li>
                     <a ng-click="openCode()" target="_blank">
@@ -110,6 +110,14 @@
 
                         <!--<a class="waves-effect waves-light btn deep-orange lighten-2">Stop working!</a>-->
                     </div>
+                    <div class="divider"></div>
+                    <div class="card-content">
+                        <!-- here the charts -->
+                        <canvas id="bar" class="chart chart-bar"
+  chart-data="currentproject.chart.data" chart-labels="currentproject.chart.labels" chart-series="currentproject.chart.series">
+</canvas>
+
+                    </div>
                 </div>
                 <div ng-show="!currentproject.title" class="card blue-grey lighten-4 col s12 m7 l7" style="height: 200px;">
                     <span class="card-title">
@@ -129,6 +137,14 @@ Works for both browser and electron with the same code -->
 
     <!-- ANGULAR -->
     <script src="libraries/angular.min.js"></script>
+
+    <!-- ANGULAR CHART JS -->
+    <script src="node_modules/chart.js/dist/Chart.min.js"></script>
+    <script src="node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
+
+    <!-- FILESAVER JS -->
+
+    <script src="node_modules/file-saver/FileSaver.min.js"></script>
 
       <!--Import jQuery before materialize.js-->
       <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>

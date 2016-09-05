@@ -1,11 +1,7 @@
 {
-  "name": "OpenWorkTime-offline",
+  "name": "OpenWorkTime",
   "version": "1.0.0",
-  "description": "Open Work Time, offline version. Time tracking app",
-  "main": "main.js",
-  "scripts": {
-    "start": "electron ."
-  },
+  "description": "Open Work Time, online version. Time tracking app",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/idoctnef/openworktime"
@@ -22,9 +18,6 @@
     "url": "https://github.com/idoctnef/openworktime/issues"
   },
   "homepage": "https://github.com/idoctnef/openworktime",
-  "devDependencies": {
-    "electron-prebuilt": "^1.2.0"
-  },
   "dependencies": {
     "angular-chart.js": "^1.0.2"
   }

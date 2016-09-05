@@ -14,8 +14,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
       <title>Open Work Time - local version</title>
 
-      <!-- ANGULAR -->
-      <script src="libraries/angular.min.js"></script>
+
 
     </head>
 
@@ -50,48 +49,16 @@
                 <div class="card blue-grey lighten-4 col s12 m5 l5">
                     <div class="card-content">
                         <span class="card-title">Projects</span>
-                        <ul class="collection">
-                          <!--<li class="collection-item avatar blue-grey lighten-4">
-                              <img src="img/webicons/modeling.png" class="circle"/>
-                              <span class="title">Piratel</span>
-                              <span class="badge">14h</span>
-                              <p class="grey-text">User1, User2</p>
-                          </li>
-                          <li class="collection-item avatar blue-grey lighten-3">
-                              <img src="img/webicons/smartphone.png" class="circle"/>
-                              <span class="title">CarsharingApp Frontend</span>
-                              <span class="badge">10h 34min</span>
-                              <p class="grey-text">User4, User3</p>
-                          </li>
-                          <li class="collection-item avatar blue-grey lighten-4">
-                              <img src="img/webicons/browser-4.png" class="circle"/>
-                              <span class="title">CarsharingApp Backend</span>
-                              <span class="badge">11h 20min</span>
-                              <p class="grey-text">User1, User2</p>
-                          </li>
-                          <li class="collection-item avatar blue-grey lighten-4">
-                              <img src="img/webicons/coding.png" class="circle"/>
-                              <span class="title">OpenWorkTime</span>
-                              <span class="badge">2h 15min</span>
-                              <p class="grey-text">User1, User2, User3, User4</p>
-                          </li>
-                          <li class="collection-item avatar blue-grey lighten-4">
-                              <img src="img/webicons/devices-1.png" class="circle"/>
-                              <span class="title">WebPrimusTech</span>
-                              <span class="badge">0h</span>
-                              <p class="grey-text">no workers</p>
-                          </li>-->
-
-                          <li ng-repeat="project in projects" class="collection-item avatar blue-grey lighten-4">
-                              <a class="waves-effect waves-light btn-floating blue-grey lighten-2 right" ng-click="removeProject($index)">
+                        <div class="collection">
+                          <a href="#!" ng-click="projectSelect($index)" ng-repeat="project in projects" class="collection-item avatar blue-grey lighten-4">
+                              <div class="waves-effect waves-light btn-floating blue-grey lighten-2 right" ng-click="removeProject($index)">
                                   <i class="material-icons"><img src="img/trash.png" class="o_trash_icon" /></i>
-                              </a>
-                              <img ng-src="img/webicons/{{project.icon}}.png" class="circle"/>
+                              </div>
+                              <img ng-src="img/coding/{{project.icon}}.png" class="circle"/>
                               <span class="title">{{project.title}}</span>
-                              <span class="badge">0h</span>
-                              <p class="grey-text">{{username}}</p>
-                          </li>
-                        </ul>
+                              <p class="grey-text">{{project.totaltime | secondsToDateTime | date:'HH:mm:ss'}}</p>
+                          </a>
+                      </div>
                     </div>
                     <div class="card-action">
                         <div class="input-field col s6">
@@ -102,29 +69,27 @@
                           <input ng-model="newproject.icon" id="icon" type="text" class="validate">
                           <label for="icon">icon</label>
                         </div>
-                        <a ng-click="addNewProject()" class="waves-effect waves-light btn blue-grey lighten-1">Add new project</a>
+                        <a ng-click="addNewProject()" class="waves-effect waves-light btn blue-grey lighten-1 right">Add new project</a>
                     </div>
                 </div>
 
-                <div class="card blue-grey lighten-4 col s12 m7 l7">
+                <div ng-show="currentproject.title" class="card blue-grey lighten-4 col s12 m7 l7">
                     <div class="card-content">
-                        <span class="card-title"> <img src="img/webicons/smartphone.png" class="o_project_title_img"/>CarsharingApp Frontend</span>
+                        <span class="card-title">
+                            <img ng-src="img/coding/{{currentproject.icon}}.png" class="o_project_title_img"/>
+                            {{currentproject.title}}
+                        </span>
                         <p>
-                            project github: <a href="#">https://github.com/idoctnef/collectivecarApp</a>
+                            Total time: {{currentproject.totaltime | secondsToDateTime | date:'HH:mm:ss'}}
                         </p>
                         <p>
-                            project Taigan: <a href="#">https://github.com/idoctnef/collectivecarApp</a>
-                        </p>
-                        <p>
-                            Total time: 10h 34min
-                        </p>
-                        <p>
-                            Current strike time: <b>10h 34min</b>
+                            Current strike time: <b>{{currentStrike | secondsToDateTime | date:'HH:mm:ss'}}</b>
                         </p>
 
                     </div>
                     <div class="card-action">
-                        <a class="waves-effect waves-light btn blue-grey lighten-1">Work!</a>
+                        <a ng-click="btnWork()" ng-show="!working" class="waves-effect waves-light btn green lighten-2">Work!</a>
+                        <a ng-click="btnStop()" ng-show="working" class="waves-effect waves-light btn red lighten-2">Stop!</a>
 
                         <!--<a class="waves-effect waves-light btn deep-orange lighten-2">Stop working!</a>-->
                     </div>
@@ -140,7 +105,8 @@ Insert this line above script imports
 Works for both browser and electron with the same code -->
 <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
 
-
+    <!-- ANGULAR -->
+    <script src="libraries/angular.min.js"></script>
 
       <!--Import jQuery before materialize.js-->
       <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>

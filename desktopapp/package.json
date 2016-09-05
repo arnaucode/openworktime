@@ -1,0 +1,28 @@
+{
+  "name": "OpenWorkTime-offline",
+  "version": "1.0.0",
+  "description": "Open Work Time, offline version. Time tracking app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/idoctnef/openworktime"
+  },
+  "keywords": [
+    "work",
+    "time",
+    "traking",
+    "app"
+  ],
+  "author": "idoctnef",
+  "license": "GNU-1.0",
+  "bugs": {
+    "url": "https://github.com/idoctnef/openworktime/issues"
+  },
+  "homepage": "https://github.com/idoctnef/openworktime",
+  "devDependencies": {
+    "electron-prebuilt": "^1.2.0"
+  }
+}

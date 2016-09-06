@@ -4,7 +4,12 @@ angular.module('workApp', ['chart.js'])
         $scope,
         $interval
     ) {
-        $scope.username="user";
+        $scope.user={
+            username: "Arnau",
+            avatar: "toucan",
+            github: "https://github.com/idoctnef",
+            totalWorkedTime: 4520
+        };
         //localStorage.clear();
         $scope.working=false;
     $scope.projects=[];

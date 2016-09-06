@@ -38,7 +38,7 @@ router.get('/', function(req, res) {
   res.send("Hello world!");
 });
 app.use(router);*/
-app.use(express.static(__dirname + '/web'));
+app.use(express.static(__dirname + '/webapp'));
 
 
 //CORS

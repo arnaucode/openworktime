@@ -18,3 +18,11 @@
 .o_float_right{
     float: right;
 }
+
+.o_user_title{
+    width: 70%;
+    max-width: 150px;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}

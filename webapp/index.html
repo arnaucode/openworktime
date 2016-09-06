@@ -23,7 +23,7 @@
 
         <nav>
           <div class="nav-wrapper blue-grey darken-1">
-              <a href="#" class="brand-logo">Open Work Time <small>- online version</small></a>
+              <a href="#" class="brand-logo">Open Work Time <small>- v0.1</small></a>
               <ul id="nav-mobile" class="right">
                 <li>
                     <a ng-click="openCode()" target="_blank">
@@ -44,91 +44,107 @@
           </div>
         </nav>
 
-        <div class="">
-            <div class="row">
-                <div class="card blue-grey lighten-4 col s12 m5 l5">
-                    <div class="card-content">
-                        <span class="card-title">Projects</span>
-                        <div class="collection">
-                          <a href="#!" ng-click="projectSelect($index)" ng-repeat="project in projects" class="collection-item avatar blue-grey lighten-4">
-                                <div class="right">
-                                    <div class="waves-effect waves-light btn-floating blue-grey lighten-2" ng-click="editProject($index)">
-                                        <i class="material-icons"><img src="img/edit.png" class="o_trash_icon" /></i>
-                                    </div>
-                                    <div class="waves-effect waves-light btn-floating blue-grey lighten-2" ng-click="removeProject($index)">
-                                        <i class="material-icons"><img src="img/trash.png" class="o_trash_icon" /></i>
-                                    </div>
-                                </div>
-                              <img ng-src="img/{{project.icon}}.png" class="circle"/>
-                              <span class="title">{{project.title}}</span>
-                              <p class="grey-text">{{project.totaltime | secondsToDateTime | date:'HH:mm:ss'}}</p>
-                          </a>
-                      </div>
-                    </div>
-                    <div class="card-action" ng-show="!editingProject">
-                        <div class="input-field col s6">
-                          <input ng-model="newproject.title" id="newprojectname" type="text" class="validate">
-                          <label for="newprojectname">New project name</label>
-                        </div>
-                        <div class="input-field col s6">
-                          <input ng-model="newproject.icon" id="icon" type="text" class="validate">
-                          <label for="icon">icon</label>
-                        </div>
-                        <a ng-click="addNewProject()" class="waves-effect waves-light btn blue-grey lighten-1 right">Add new project</a>
-                    </div>
-                    <div class="card-action" ng-show="editingProject">
-                        <div class="input-field col s6">
-                          <input ng-model="editingProject.title" id="newprojectname" value=" " type="text" class="validate">
-                          <label for="newprojectname">New project name</label>
-                        </div>
-                        <div class="input-field col s6">
-                          <input ng-model="editingProject.icon" id="icon" value=" " type="text" class="validate">
-                          <label for="icon">icon</label>
-                        </div>
-                        <a ng-click="cancelEditProject()" class="waves-effect waves-light btn red lighten-2">Cancel</a>
-                        <a ng-click="updateProject()" class="waves-effect waves-light btn blue lighten-2 right">Update project</a>
-                    </div>
+        <div class="row">
+            <div class="col s12 m4 l3 blue-grey lighten-2">
+                <!-- Grey navigation panel -->
+                <div class="o_user_title center-align">
+                        <img ng-src="img/avatars/{{user.avatar}}.png" alt="" class="circle responsive-img blue-grey lighten-4">
+                        <h3>{{user.username}}</h3>
                 </div>
+                <p>
+                    Users's github: <a ng-href="{{user.github}}">{{user.github}}</a>
+                </p>
+                <p>
+                    Total worked time: {{user.totalWorkedTime | secondsToDateTime | date:'HH:mm'}}h
+                </p>
+              </div>
 
-                <div ng-show="currentproject.title" class="card blue-grey lighten-4 col s12 m7 l7">
-                    <div class="card-content">
+
+            <div class="col s12 m8 l9">
+                <div class="row">
+                    <div class="card blue-grey lighten-4 col s12 m12 l5">
+                        <div class="card-content">
+                            <span class="card-title">Projects</span>
+                            <div class="collection">
+                              <a href="#!" ng-click="projectSelect($index)" ng-repeat="project in projects" class="collection-item avatar blue-grey lighten-4">
+                                    <div class="right">
+                                        <div class="waves-effect waves-light btn-floating blue-grey lighten-2" ng-click="editProject($index)">
+                                            <i class="material-icons"><img src="img/edit.png" class="o_trash_icon" /></i>
+                                        </div>
+                                        <div class="waves-effect waves-light btn-floating blue-grey lighten-2" ng-click="removeProject($index)">
+                                            <i class="material-icons"><img src="img/trash.png" class="o_trash_icon" /></i>
+                                        </div>
+                                    </div>
+                                  <img ng-src="img/{{project.icon}}.png" class="circle"/>
+                                  <span class="title">{{project.title}}</span>
+                                  <p class="grey-text">{{project.totaltime | secondsToDateTime | date:'HH:mm:ss'}}</p>
+                              </a>
+                          </div>
+                        </div>
+                        <div class="card-action" ng-show="!editingProject">
+                            <div class="input-field col s6">
+                              <input ng-model="newproject.title" id="newprojectname" type="text" class="validate">
+                              <label for="newprojectname">New project name</label>
+                            </div>
+                            <div class="input-field col s6">
+                              <input ng-model="newproject.icon" id="icon" type="text" class="validate">
+                              <label for="icon">icon</label>
+                            </div>
+                            <a ng-click="addNewProject()" class="waves-effect waves-light btn blue-grey lighten-1 right">Add new project</a>
+                        </div>
+                        <div class="card-action" ng-show="editingProject">
+                            <div class="input-field col s6">
+                              <input ng-model="editingProject.title" id="newprojectname" value=" " type="text" class="validate">
+                              <label for="newprojectname">New project name</label>
+                            </div>
+                            <div class="input-field col s6">
+                              <input ng-model="editingProject.icon" id="icon" value=" " type="text" class="validate">
+                              <label for="icon">icon</label>
+                            </div>
+                            <a ng-click="cancelEditProject()" class="waves-effect waves-light btn red lighten-2">Cancel</a>
+                            <a ng-click="updateProject()" class="waves-effect waves-light btn blue lighten-2 right">Update project</a>
+                        </div>
+                    </div>
+
+                    <div ng-show="currentproject.title" class="card blue-grey lighten-4 col s12 m12 l7">
+                        <div class="card-content">
+                            <span class="card-title">
+                                <img ng-src="img/{{currentproject.icon}}.png" class="o_project_title_img"/>
+                                {{currentproject.title}}
+                            </span>
+                            <p>
+                                Total time: {{currentproject.totaltime | secondsToDateTime | date:'HH:mm:ss'}}
+                            </p>
+                            <p>
+                                Current strike time: <b>{{currentStrike | secondsToDateTime | date:'HH:mm:ss'}}</b>
+                            </p>
+
+                        </div>
+                        <div class="card-action">
+                            <a ng-click="btnWork()" ng-show="!working" class="waves-effect waves-light btn green lighten-2">Work!</a>
+                            <a ng-click="btnStop()" ng-show="working" class="waves-effect waves-light btn red lighten-2">Stop!</a>
+
+                            <!--<a class="waves-effect waves-light btn deep-orange lighten-2">Stop working!</a>-->
+                        </div>
+                        <div class="divider"></div>
+                        <div class="card-content">
+                            <!-- here the charts -->
+                            <canvas id="bar" class="chart chart-bar"
+                              chart-data="currentproject.chart.data" chart-labels="currentproject.chart.labels" chart-series="currentproject.chart.series">
+                            </canvas>
+
+                        </div>
+                    </div>
+                    <div ng-show="!currentproject.title" class="card blue-grey lighten-4 col s12 m12 l7" style="height: 200px;">
                         <span class="card-title">
-                            <img ng-src="img/{{currentproject.icon}}.png" class="o_project_title_img"/>
-                            {{currentproject.title}}
+                            Select a project
                         </span>
-                        <p>
-                            Total time: {{currentproject.totaltime | secondsToDateTime | date:'HH:mm:ss'}}
-                        </p>
-                        <p>
-                            Current strike time: <b>{{currentStrike | secondsToDateTime | date:'HH:mm:ss'}}</b>
-                        </p>
-
                     </div>
-                    <div class="card-action">
-                        <a ng-click="btnWork()" ng-show="!working" class="waves-effect waves-light btn green lighten-2">Work!</a>
-                        <a ng-click="btnStop()" ng-show="working" class="waves-effect waves-light btn red lighten-2">Stop!</a>
 
-                        <!--<a class="waves-effect waves-light btn deep-orange lighten-2">Stop working!</a>-->
-                    </div>
-                    <div class="divider"></div>
-                    <div class="card-content">
-                        <!-- here the charts -->
-                        <canvas id="bar" class="chart chart-bar"
-  chart-data="currentproject.chart.data" chart-labels="currentproject.chart.labels" chart-series="currentproject.chart.series">
-</canvas>
 
-                    </div>
                 </div>
-                <div ng-show="!currentproject.title" class="card blue-grey lighten-4 col s12 m7 l7" style="height: 200px;">
-                    <span class="card-title">
-                        Select a project
-                    </span>
-                </div>
-
-
             </div>
         </div>
-
 
 <!-- ELECTRON
 Insert this line above script imports

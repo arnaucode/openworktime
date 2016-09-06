@@ -20,9 +20,16 @@
 }
 
 .o_user_title{
-    width: 70%;
+    width: 60%;
     max-width: 150px;
     margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
 }
+
+
+/*@media only screen and (min-width: 601px){
+    .o_sidenav{
+        height: 100%;
+    }
+}*/

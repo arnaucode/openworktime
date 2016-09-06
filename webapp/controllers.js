@@ -5,9 +5,10 @@ angular.module('workApp', ['chart.js'])
         $interval
     ) {
         $scope.user={
-            username: "Arnau",
+            username: "idoctnef",
             avatar: "toucan",
-            github: "https://github.com/idoctnef",
+            github: ["github.com/idoctnef", "https://github.com/idoctnef"],
+            taiga: ["project page", "https://projects.primustech.io"],
             totalWorkedTime: 4520
         };
         //localStorage.clear();

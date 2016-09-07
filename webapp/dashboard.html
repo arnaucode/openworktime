@@ -76,6 +76,7 @@
                             </div>
                           <img ng-src="img/{{project.icon}}.png" class="circle"/>
                           <span class="title">{{project.title}}</span>
+                          <p class="grey-text">{{project.description}}</p>
                           <p class="grey-text">{{project.totaltime | secondsToDateTime | date:'HH:mm:ss'}}</p>
                       </a>
                   </div>
@@ -88,6 +89,10 @@
                     <div class="input-field col s6">
                       <input ng-model="newproject.icon" id="icon" type="text" class="validate">
                       <label for="icon">icon</label>
+                    </div>
+                    <div class="input-field col s12">
+                      <input ng-model="newproject.description" id="description" type="text" class="validate">
+                      <label for="description">description</label>
                     </div>
                     <a ng-click="addNewProject()" class="waves-effect waves-light btn blue-grey lighten-1 right">Add new project</a>
                 </div>

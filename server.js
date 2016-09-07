@@ -29,8 +29,8 @@ app.use(morgan('dev'));
 var userMdl     = require('./models/userModel')(app, mongoose);
 var userCtrl = require('./controllers/userController');
 
-/*var projectMdl     = require('./models/projectModel')(app, mongoose);
-var projectCtrl = require('./controllers/projectController');*/
+var projectMdl     = require('./models/projectModel')(app, mongoose);
+var projectCtrl = require('./controllers/projectController');
 
 /*// Example Route
 var router = express.Router();
@@ -102,12 +102,12 @@ apiRoutes.route('/users/:id')
     .get(userCtrl.findById);
 apiRoutes.route('/users/byusername/:username')
     .get(userCtrl.findUserByUsername);
-/*apiRoutes.route('/projects/user/:username')
-    .get(projectCtrl.findAllprojectsFromUsername);
+apiRoutes.route('/projects/user/:username')
+    .get(projectCtrl.findAllProjectsFromUsername);
 
 
 apiRoutes.route('/projects')
-  .get(projectCtrl.findAllprojects);
+  .get(projectCtrl.findAllProjects);
 
 apiRoutes.route('/projects/:id')
     .get(projectCtrl.findById);
@@ -118,11 +118,11 @@ apiRoutes.route('/users/:id')
   .delete(userCtrl.deleteUser);
 
 apiRoutes.route('/projects')
-  .post(projectCtrl.addproject);
+  .post(projectCtrl.addProject);
 
 apiRoutes.route('/projects/:id')
-  .put(projectCtrl.updateproject)
-  .delete(projectCtrl.deleteproject);*/
+  .put(projectCtrl.updateProject)
+  .delete(projectCtrl.deleteProject);
 
 app.use('/api', apiRoutes);
 // end of API routes -------------------------------------

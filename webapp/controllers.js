@@ -6,7 +6,8 @@ angular.module('workApp', ['chart.js'])
         $interval,
         $http
     ) {
-
+        $scope.users={};
+        $scope.projects={};
         $scope.currentInclude='login.html';
         /* DASHBOARD initialization */
         $scope.dashboardInit = function(){
@@ -18,11 +19,34 @@ angular.module('workApp', ['chart.js'])
             //getting users
             $http.get(urlapi + 'users')
             .success(function(data, status, headers,config){
-                console.log(data);
-                $scope.users=data;
+                if(data.success==false){
+                    localStorage.removeItem("owt_token");
+                    localStorage.removeItem("owt_user");
+                    $scope.currentInclude="login.html";
+                    console.log("token ended");
+                }else{
+                    console.log(data);
+                    $scope.users=data;
+                }
             })
             .error(function(data, status, headers,config){
-                console.log('data error');
+                console.log("server not responding, data error");
+                toastr.error("server not responding");
+                $scope.$broadcast('scroll.refreshComplete');//refresher stop
+            })
+            .then(function(result){
+                users = result.data;
+            });
+
+            //getting projects
+            $http.get(urlapi + 'projects')
+            .success(function(data, status, headers,config){
+                console.log(data);
+                $scope.projects=data;
+            })
+            .error(function(data, status, headers,config){
+                console.log("server not responding, data error");
+                toastr.error("server not responding");
                 $scope.$broadcast('scroll.refreshComplete');//refresher stop
             })
             .then(function(result){
@@ -38,6 +62,9 @@ angular.module('workApp', ['chart.js'])
             $scope.user=JSON.parse(localStorage.getItem("owt_user"));
             $scope.currentInclude="dashboard.html";
             $scope.dashboardInit();
+            intervalGetData = $interval(function(){
+                $scope.dashboardInit();
+            }, 2000);
         }else{
             $scope.currentInclude="login.html";
         }
@@ -62,7 +89,7 @@ angular.module('workApp', ['chart.js'])
             });
 
         };
-
+        var intervalGetData;//out of internal scope
         $scope.onBtnLogin = function(){
             $http({
                 url: urlapi + 'auth',
@@ -77,10 +104,10 @@ angular.module('workApp', ['chart.js'])
 
                         $scope.currentInclude="dashboard.html";
                         $scope.dashboardInit();
-                        var intervalGetData;
+
                         intervalGetData = $interval(function(){
                             $scope.dashboardInit();
-                        }, 10000);
+                        }, 2000);
                     }else{
                         toastr.error(response.data.message);
                     }
@@ -96,6 +123,7 @@ angular.module('workApp', ['chart.js'])
             }).then(function(response) {
                     localStorage.removeItem("owt_token");
                     localStorage.removeItem("owt_user");
+                    $interval.cancel(intervalGetData);
                     $scope.currentInclude="login.html";
             },
             function(response) {// failed
@@ -108,35 +136,12 @@ angular.module('workApp', ['chart.js'])
 
         //localStorage.clear();
         $scope.working=false;
-    $scope.projects=[];
     $scope.currentproject={};
-    if(localStorage.getItem("w_l_projects"))
-    {
-        $scope.projects=JSON.parse(localStorage.getItem("w_l_projects")); //w_local_
-    }
-    if($scope.projects.length>0)
-    {
-        $scope.newproject={
-            id: $scope.projects[$scope.projects.length-1].id+1,
-            chart: {
-                labels: [],
-                series: ['Working time'],
-                data: []
-            }
-        };
-    }else{
-        $scope.newproject={
-            id: 0,
-            chart: {
-                labels: [],
-                series: ['Working time'],
-                data: []
-            }
-        };
-    }
+
+    $scope.newproject={};
     //$scope.newproject.id=$scope.projects[$scope.projects.length-1].id+1;
     $scope.addNewProject = function(){
-        $scope.newproject.totaltime="0";
+        /*$scope.newproject.totaltime="0";
         $scope.projects.push($scope.newproject);
         localStorage.setItem("w_l_projects", angular.toJson($scope.projects));
         $scope.newproject={
@@ -146,7 +151,19 @@ angular.module('workApp', ['chart.js'])
                 series: ['Working time'],
                 data: []
             }
-        };
+        };*/
+        $http({
+            url: urlapi + 'projects',
+            method: "POST",
+            data: $scope.newproject
+        }).then(function(response) {
+            console.log("project posted");
+            console.log(response);
+            toastr.success("project created at server");
+            $scope.newproject={};
+        },
+        function(response) {// failed
+        });
     };
     $scope.editingIndex="";
     $scope.editProject = function(index){

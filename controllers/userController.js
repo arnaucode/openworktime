@@ -74,7 +74,9 @@ exports.addUser = function(req, res) {
 	    mail:   req.body.mail,
 	    avatar:   req.body.avatar,
 		github: req.body.github,
-		web: req.body.web
+		web: req.body.web,
+		projects: req.body.projects,
+		connected: req.body.connected
 	});
 
 	user.save(function(err, user) {
@@ -139,6 +141,12 @@ exports.login = function(req, res) {
 		  expiresIn: '60m'
         });
 	//console.log(user);
+
+	//update connected=true
+	user.connected= true;
+	user.save(function(err) {
+		if(err) return res.send(500, err.message);
+	});
         // return the information including token as JSON
         res.json({
           success: true,
@@ -151,4 +159,32 @@ exports.login = function(req, res) {
     }
 
   });
+};
+
+exports.logout = function(req, res) {
+	// find the user
+	userModel.findOne({
+	  username: req.body.username
+	}, function(err, user) {
+
+	  if (err) throw err;
+
+	  if (!user) {
+		res.json({ success: false, message: 'Authentication failed. User not found.' });
+	  } else if (user) {
+
+
+	   //update connected=true
+	   user.connected= false;
+	   user.save(function(err) {
+		   if(err) return res.send(500, err.message);
+	   });
+		  // return the information including token as JSON
+		  res.json({
+			success: true,
+			message: 'logged out'
+		  });
+		}
+
+	});
 };

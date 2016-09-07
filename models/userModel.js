@@ -10,6 +10,7 @@ var userSchema = new Schema({
     avatar:   { type: String },
     github: { type: String },
     web: { type: String },
-    projects: { type: String }
+    projects: { type: String },
+    connected: { type: Boolean }
 })
 module.exports = mongoose.model('userModel', userSchema);

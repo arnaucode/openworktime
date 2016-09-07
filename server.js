@@ -90,6 +90,10 @@ apiRoutes.use(function(req, res, next) {
 
   }
 }); //fi verificació de token
+
+apiRoutes.route('/logout')
+    .post(userCtrl.logout);
+
 apiRoutes.route('/users')
   .get(userCtrl.findAllUsers);
 

@@ -6,17 +6,48 @@ angular.module('workApp', ['chart.js'])
         $interval,
         $http
     ) {
+
         $scope.currentInclude='login.html';
+        /* DASHBOARD initialization */
+        $scope.dashboardInit = function(){
+            if(localStorage.getItem('owt_token')){// adding token to the headers
+                $http.defaults.headers.post['X-Access-Token'] = localStorage.getItem('owt_token');
+                $http.defaults.headers.common['X-Access-Token'] = localStorage.getItem('owt_token');
+            }
+
+            //getting users
+            $http.get(urlapi + 'users')
+            .success(function(data, status, headers,config){
+                console.log(data);
+                $scope.users=data;
+            })
+            .error(function(data, status, headers,config){
+                console.log('data error');
+                $scope.$broadcast('scroll.refreshComplete');//refresher stop
+            })
+            .then(function(result){
+                users = result.data;
+            });
+
+        };
+        /* </DASHBOARD initialization */
+
+
+        $scope.user={};
         if(localStorage.getItem("owt_user")){
             $scope.user=JSON.parse(localStorage.getItem("owt_user"));
             $scope.currentInclude="dashboard.html";
+            $scope.dashboardInit();
         }else{
-            //window.location="index.html";
+            $scope.currentInclude="login.html";
         }
 
         /* LOGIN SIGNUP */
         $scope.showSignup = function(){
-
+            $scope.currentInclude="signup.html";
+        };
+        $scope.hideSignup = function(){
+            $scope.currentInclude="login.html";
         };
         $scope.onBtnSignup = function(){
             $scope.user.projects=[];
@@ -25,10 +56,11 @@ angular.module('workApp', ['chart.js'])
                 method: "POST",
                 data: $scope.user
             }).then(function(response) {
-                    window.location="index.html";
+                $scope.currentInclude="login.html";
             },
             function(response) {// failed
             });
+
         };
 
         $scope.onBtnLogin = function(){
@@ -37,25 +69,42 @@ angular.module('workApp', ['chart.js'])
                 method: "POST",
                 data: $scope.user
             }).then(function(response) {
-                    console.log(response);
                     if(response.data.success)
                     {
-                        localStorage.setItem("owt_token", angular.toJson(response.data.token));
+                        localStorage.setItem("owt_token", response.data.token);
                         localStorage.setItem("owt_user", angular.toJson(response.data.user));
-                        window.location="dashboard.html";
+                        $scope.user=JSON.parse(localStorage.getItem("owt_user"));
+
+                        $scope.currentInclude="dashboard.html";
+                        $scope.dashboardInit();
+                        var intervalGetData;
+                        intervalGetData = $interval(function(){
+                            $scope.dashboardInit();
+                        }, 10000);
                     }else{
-                        toastr.error("login error", response.data.message);
+                        toastr.error(response.data.message);
                     }
             },
             function(response) {// failed
             });
         };
         $scope.onBtnLogout = function(){
-            localStorage.removeItem("owt_token");
-            localStorage.removeItem("owt_user");
-            //window.location.reload();
+            $http({
+                url: urlapi + 'logout',
+                method: "POST",
+                data: $scope.user
+            }).then(function(response) {
+                    localStorage.removeItem("owt_token");
+                    localStorage.removeItem("owt_user");
+                    $scope.currentInclude="login.html";
+            },
+            function(response) {// failed
+            });
         };
         /* </ LOGIN SIGNUP */
+
+
+
 
         //localStorage.clear();
         $scope.working=false;

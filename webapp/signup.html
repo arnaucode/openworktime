@@ -1,0 +1,115 @@
+
+  <!DOCTYPE html>
+  <html ng-app="workApp">
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="fonts/icons.css" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
+
+      <link type="text/css" rel="stylesheet" href="own.css"/>
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <title>Open Work Time - online version</title>
+
+
+      <style>
+      body{
+        background: #ffffff; /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #ffffff , #37474f); /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #ffffff , #37474f); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      }
+      </style>
+    </head>
+
+    <body ng-controller="loginController as login" class="grey lighten-2">
+
+
+            <div class="row">
+                <div class="col s0 m2 l3">
+                </div>
+                <div class="col s12 m8 l6">
+                    <div class="card white">
+                        <div class="card-content">
+                            <span class="card-title">Signup</span>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input ng-model="user.username" id="username" type="text" class="validate">
+                                    <label for="username">Username</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input ng-model="user.password" id="password" type="password" class="validate">
+                                    <label for="password">Password</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input ng-model="user.repassword" id="repassword" type="password" class="validate">
+                                    <label for="repassword">Confirm password</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input ng-model="user.description" id="description" type="text" class="validate">
+                                    <label for="description">Description</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input ng-model="user.mail" id="mail" type="email" class="validate">
+                                    <label for="mail">Mail</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input ng-model="user.avatar" id="avatar" type="text" class="validate">
+                                    <label for="avatar">Avatar</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input ng-model="user.github" id="github" type="text" class="validate">
+                                    <label for="github">Github</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input ng-model="user.web" id="web" type="text" class="validate">
+                                    <label for="web">Web</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-action">
+                            <a href="index.html" class="waves-effect waves-light btn red lighten-2">
+                                <i class="material-icons left">not_interested</i>Cancel
+                            </a>
+                            <a ng-click="onBtnSignup()" class="waves-effect waves-light btn green lighten-2 right">
+                                <i class="material-icons left">done</i>Signup
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+    <!-- ANGULAR -->
+    <script src="libraries/angular.min.js"></script>
+
+    <!-- ANGULAR CHART JS -->
+    <script src="node_modules/chart.js/dist/Chart.min.js"></script>
+    <script src="node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
+
+
+      <!--Import jQuery before materialize.js-->
+      <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+      <script type="text/javascript" src="js/materialize.min.js"></script>
+
+      <script src="controllers.js"></script>
+
+      <script src="libraries/toastr.js"></script>
+      <link type="text/css" rel="stylesheet" href="libraries/toastr.css"/>
+
+
+
+    </body>
+  </html>

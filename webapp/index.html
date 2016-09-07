@@ -21,147 +21,10 @@
     <body ng-controller="workController as work" class="grey lighten-2">
 
 
-        <nav>
-          <div class="nav-wrapper blue-grey darken-4">
-              <a href="#" class="brand-logo">Open Work Time <small>- v0.1</small></a>
-              <ul id="nav-mobile" class="right">
-                <li>
-                    <a ng-click="openCode()" target="_blank">
-                        <i class="large material-icons" title="Visit code">code</i>
-                    </a>
-                </li>
-                <li>
-                    <a ng-click="deleteStorage()">
-                        <i class="large material-icons" title="Delete storage">info_outline</i>
-                    </a>
-                </li>
-                <li>
-                    <a ng-click="saveStorage()" title="Save all to storage">
-                        <i class="large material-icons">perm_identity</i>
-                    </a>
-                </li>
-              </ul>
-          </div>
-        </nav>
-
-        <div class="row">
-            <div class="col s12 m4 l2 blue-grey darken-3 white-text">
-                <!-- Grey navigation panel -->
-                <br>
-                <div class="row">
-                    <div class="col s4">
-                        <img ng-src="img/avatars/{{user.avatar}}.png" alt="" class="circle responsive-img blue-grey lighten-5">
-                    </div>
-                    <div class="col s8">
-                        <h5>{{user.username}}</h5>
-                    </div>
-                </div>
-                <p>
-                    <a ng-href="{{user.github[1]}}" target="_blank">{{user.github[0]}}</a>
-                </p>
-                <p>
-                    <a ng-href="{{user.taiga[1]}}" target="_blank">{{user.taiga[0]}}</a>
-                </p>
-                <p>
-                    Total worked time: {{user.totalWorkedTime | secondsToDateTime | date:'HH:mm'}}h
-                </p>
-                <br/><br/><br/><br/><br/><br/><br/><br/>
-                <br/><br/><br/><br/><br/><br/><br/><br/>
-                <br/><br/><br/><br/><br/><br/><br/><br/>
-                <br/><br/><br/><br/><br/><br/><br/><br/>
-            </div>
+        <ng-include src="currentInclude"></ng-include>
 
 
-            <div class="col s12 m8 l10">
-                <div class="row">
-                    <div class="card white col s12 m12 l5">
-                        <div class="card-content">
-                            <span class="card-title">Projects</span>
-                            <div class="collection">
-                              <a href="#!" ng-click="projectSelect($index)" ng-repeat="project in projects" class="collection-item avatar white">
-                                    <div class="right">
-                                        <div class="waves-effect waves-light btn-floating indigo lighten-2" ng-click="editProject($index)">
-                                            <i class="material-icons"><img src="img/edit.png" class="o_trash_icon" /></i>
-                                        </div>
-                                        <div class="waves-effect waves-light btn-floating deep-orange lighten-2" ng-click="removeProject($index)">
-                                            <i class="material-icons"><img src="img/trash.png" class="o_trash_icon" /></i>
-                                        </div>
-                                    </div>
-                                  <img ng-src="img/{{project.icon}}.png" class="circle"/>
-                                  <span class="title">{{project.title}}</span>
-                                  <p class="grey-text">{{project.totaltime | secondsToDateTime | date:'HH:mm:ss'}}</p>
-                              </a>
-                          </div>
-                        </div>
-                        <div class="card-action" ng-show="!editingProject">
-                            <div class="input-field col s6">
-                              <input ng-model="newproject.title" id="newprojectname" type="text" class="validate">
-                              <label for="newprojectname">New project name</label>
-                            </div>
-                            <div class="input-field col s6">
-                              <input ng-model="newproject.icon" id="icon" type="text" class="validate">
-                              <label for="icon">icon</label>
-                            </div>
-                            <a ng-click="addNewProject()" class="waves-effect waves-light btn blue-grey lighten-1 right">Add new project</a>
-                        </div>
-                        <div class="card-action" ng-show="editingProject">
-                            <div class="input-field col s6">
-                              <input ng-model="editingProject.title" id="newprojectname" value=" " type="text" class="validate">
-                              <label for="newprojectname">New project name</label>
-                            </div>
-                            <div class="input-field col s6">
-                              <input ng-model="editingProject.icon" id="icon" value=" " type="text" class="validate">
-                              <label for="icon">icon</label>
-                            </div>
-                            <a ng-click="cancelEditProject()" class="waves-effect waves-light btn red lighten-2">Cancel</a>
-                            <a ng-click="updateProject()" class="waves-effect waves-light btn blue lighten-2 right">Update project</a>
-                        </div>
-                    </div>
 
-                    <div ng-show="currentproject.title" class="card white col s12 m12 l7">
-                        <div class="card-content">
-                            <span class="card-title">
-                                <img ng-src="img/{{currentproject.icon}}.png" class="o_project_title_img"/>
-                                {{currentproject.title}}
-                            </span>
-                            <p>
-                                Total time: {{currentproject.totaltime | secondsToDateTime | date:'HH:mm:ss'}}
-                            </p>
-                            <p>
-                                Current strike time: <b>{{currentStrike | secondsToDateTime | date:'HH:mm:ss'}}</b>
-                            </p>
-
-                        </div>
-                        <div class="card-action">
-                            <a ng-click="btnWork()" ng-show="!working" class="waves-effect waves-light btn green lighten-2">Work!</a>
-                            <a ng-click="btnStop()" ng-show="working" class="waves-effect waves-light btn red lighten-2">Stop!</a>
-
-                            <!--<a class="waves-effect waves-light btn deep-orange lighten-2">Stop working!</a>-->
-                        </div>
-                        <div class="divider"></div>
-                        <div class="card-content">
-                            <!-- here the charts -->
-                            <canvas id="bar" class="chart chart-bar"
-                              chart-data="currentproject.chart.data" chart-labels="currentproject.chart.labels" chart-series="currentproject.chart.series">
-                            </canvas>
-
-                        </div>
-                    </div>
-                    <div ng-show="!currentproject.title" class="card white col s12 m12 l7" style="height: 200px;">
-                        <span class="card-title">
-                            Select a project
-                        </span>
-                    </div>
-
-
-                </div><!-- </row -->
-            </div>
-        </div>
-
-<!-- ELECTRON
-Insert this line above script imports
-Works for both browser and electron with the same code -->
-<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
 
     <!-- ANGULAR -->
     <script src="libraries/angular.min.js"></script>
@@ -180,9 +43,6 @@ Works for both browser and electron with the same code -->
       <script src="libraries/toastr.js"></script>
       <link type="text/css" rel="stylesheet" href="libraries/toastr.css"/>
 
-<!-- ELECTRON
-Insert this line after script imports -->
-<script>if (window.module) module = window.module;</script>
 
 
     </body>

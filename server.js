@@ -29,8 +29,8 @@ app.use(morgan('dev'));
 var userMdl     = require('./models/userModel')(app, mongoose);
 var userCtrl = require('./controllers/userController');
 
-var travelMdl     = require('./models/travelModel')(app, mongoose);
-var travelCtrl = require('./controllers/travelController');
+/*var projectMdl     = require('./models/projectModel')(app, mongoose);
+var projectCtrl = require('./controllers/projectController');*/
 
 /*// Example Route
 var router = express.Router();
@@ -53,23 +53,9 @@ app.use(function(req, res, next) {
 var apiRoutes = express.Router();
 
 apiRoutes.route('/users')
-  .get(userCtrl.findAllUsers)
   .post(userCtrl.addUser);
-apiRoutes.route('/users/:id')
-    .get(userCtrl.findById);
-apiRoutes.route('/users/byusername/:username')
-    .get(userCtrl.findUserByUsername);
-apiRoutes.route('/travels/user/:username')
-    .get(travelCtrl.findAllTravelsFromUsername);
-
 apiRoutes.route('/auth')
     .post(userCtrl.login);
-
-apiRoutes.route('/travels')
-  .get(travelCtrl.findAllTravels);
-
-apiRoutes.route('/travels/:id')
-.get(travelCtrl.findById)
 
 // OJU AQUÏ TREC la verificació de token temporalment, per fer les proves des de l'app
 // route middleware to verify a token
@@ -104,18 +90,35 @@ apiRoutes.use(function(req, res, next) {
 
   }
 }); //fi verificació de token
+apiRoutes.route('/users')
+  .get(userCtrl.findAllUsers);
+
+
+apiRoutes.route('/users/:id')
+    .get(userCtrl.findById);
+apiRoutes.route('/users/byusername/:username')
+    .get(userCtrl.findUserByUsername);
+/*apiRoutes.route('/projects/user/:username')
+    .get(projectCtrl.findAllprojectsFromUsername);
+
+
+apiRoutes.route('/projects')
+  .get(projectCtrl.findAllprojects);
+
+apiRoutes.route('/projects/:id')
+    .get(projectCtrl.findById);
 
 
 apiRoutes.route('/users/:id')
   .put(userCtrl.updateUser)
   .delete(userCtrl.deleteUser);
 
-apiRoutes.route('/travels')
-  .post(travelCtrl.addTravel);
+apiRoutes.route('/projects')
+  .post(projectCtrl.addproject);
 
-apiRoutes.route('/travels/:id')
-  .put(travelCtrl.updateTravel)
-  .delete(travelCtrl.deleteTravel);
+apiRoutes.route('/projects/:id')
+  .put(projectCtrl.updateproject)
+  .delete(projectCtrl.deleteproject);*/
 
 app.use('/api', apiRoutes);
 // end of API routes -------------------------------------

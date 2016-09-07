@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col s0 m2 l3">
+    </div>
+    <div class="col s12 m8 l6">
+        <div class="card white">
+            <div class="card-content">
+                <span class="card-title">Login</span>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input ng-model="user.username" id="username" type="text" class="validate">
+                        <label for="username">Username</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input ng-model="user.password" id="password" type="password" class="validate">
+                        <label for="password">Password</label>
+                    </div>
+                </div>
+            </div>
+            <div class="card-action">
+                <a ng-click="showSignup()" class="waves-effect waves-light btn green lighten-2">
+                    <i class="material-icons left">perm_identity</i>Signup
+                </a>
+                <a ng-click="onBtnLogin()" class="waves-effect waves-light btn blue lighten-2 right">
+                    <i class="material-icons left">input</i>Login
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,16 +1,62 @@
+var urlapi = "http://localhost:3000/api/";
 
 angular.module('workApp', ['chart.js'])
   .controller('workController', function(
         $scope,
-        $interval
+        $interval,
+        $http
     ) {
-        $scope.user={
-            username: "idoctnef",
-            avatar: "toucan",
-            github: ["github.com/idoctnef", "https://github.com/idoctnef"],
-            taiga: ["project page", "https://projects.primustech.io"],
-            totalWorkedTime: 4520
+        $scope.currentInclude='login.html';
+        if(localStorage.getItem("owt_user")){
+            $scope.user=JSON.parse(localStorage.getItem("owt_user"));
+            $scope.currentInclude="dashboard.html";
+        }else{
+            //window.location="index.html";
+        }
+
+        /* LOGIN SIGNUP */
+        $scope.showSignup = function(){
+
         };
+        $scope.onBtnSignup = function(){
+            $scope.user.projects=[];
+            $http({
+                url: urlapi + 'users',
+                method: "POST",
+                data: $scope.user
+            }).then(function(response) {
+                    window.location="index.html";
+            },
+            function(response) {// failed
+            });
+        };
+
+        $scope.onBtnLogin = function(){
+            $http({
+                url: urlapi + 'auth',
+                method: "POST",
+                data: $scope.user
+            }).then(function(response) {
+                    console.log(response);
+                    if(response.data.success)
+                    {
+                        localStorage.setItem("owt_token", angular.toJson(response.data.token));
+                        localStorage.setItem("owt_user", angular.toJson(response.data.user));
+                        window.location="dashboard.html";
+                    }else{
+                        toastr.error("login error", response.data.message);
+                    }
+            },
+            function(response) {// failed
+            });
+        };
+        $scope.onBtnLogout = function(){
+            localStorage.removeItem("owt_token");
+            localStorage.removeItem("owt_user");
+            //window.location.reload();
+        };
+        /* </ LOGIN SIGNUP */
+
         //localStorage.clear();
         $scope.working=false;
     $scope.projects=[];
@@ -124,6 +170,7 @@ angular.module('workApp', ['chart.js'])
     };*/
 
   })
+
 
   .filter('secondsToDateTime', [function() {
     return function(seconds) {

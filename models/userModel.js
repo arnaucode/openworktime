@@ -6,9 +6,10 @@ var userSchema = new Schema({
     username: { type: String },
     password: { type: String },
     description:   { type: String },
-    avatar:   { type: String },
     mail:   { type: String },
-    phone: { type: String },
-    telegram: { type: String }
+    avatar:   { type: String },
+    github: { type: String },
+    web: { type: String },
+    projects: { type: String }
 })
 module.exports = mongoose.model('userModel', userSchema);

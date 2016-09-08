@@ -78,6 +78,9 @@
                           <span class="title">{{project.title}}</span>
                           <p class="grey-text">{{project.description}}</p>
                           <p class="grey-text">{{project.totaltime | secondsToDateTime | date:'HH:mm:ss'}}</p>
+                          <p class="grey-text">
+                              <div ng-repeat="user in project.users">{{user}}</div>
+                          </p>
                       </a>
                   </div>
                 </div>
@@ -125,8 +128,13 @@
 
                 </div>
                 <div class="card-action">
-                    <a ng-click="btnWork()" ng-show="!working" class="waves-effect waves-light btn green lighten-2">Work!</a>
-                    <a ng-click="btnStop()" ng-show="working" class="waves-effect waves-light btn red lighten-2">Stop!</a>
+                    <div ng-show="currentproject.users.indexOf(user.username)!=-1">
+                        <a ng-click="btnWork()" ng-show="!working" class="waves-effect waves-light btn green lighten-2">Work!</a>
+                        <a ng-click="btnStop()" ng-show="working" class="waves-effect waves-light btn red lighten-2">Stop!</a>
+                    </div>
+                    <div ng-show="currentproject.users.indexOf(user.username)==-1">
+                        <a ng-click="joinProject()" class="waves-effect waves-light btn blue lighten-2">Join!</a>
+                    </div>
 
                     <!--<a class="waves-effect waves-light btn deep-orange lighten-2">Stop working!</a>-->
                 </div>

@@ -124,6 +124,9 @@ apiRoutes.route('/projects/:id')
   .put(projectCtrl.updateProject)
   .delete(projectCtrl.deleteProject);
 
+apiRoutes.route('/projects/:id/adduser')
+    .put(projectCtrl.addUserToProject);
+
 app.use('/api', apiRoutes);
 // end of API routes -------------------------------------
 

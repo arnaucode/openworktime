@@ -61,7 +61,31 @@ exports.addProject = function(req, res) {
 
 	project.save(function(err, project) {
 		if(err) return res.send(500, err.message);
-    res.status(200).jsonp(project);
+	    /*res.status(200).jsonp(project);*/
+		projectModel.find(function(err, projects) {
+			if(err) res.send(500, err.message);
+
+			res.status(200).jsonp(projects);
+		});
+	});
+};
+
+exports.addUserToProject = function(req, res) {
+	console.log("addUserToProject");
+	console.log(req.body);
+	projectModel.findById(req.params.id, function(err, project) {
+		console.log(project);
+		project.users.push(req.body.username);
+		console.log(project.users);
+		project.save(function(err) {
+			if(err) return res.send(500, err.message);
+
+			projectModel.find(function(err, projects) {
+			    if(err) res.send(500, err.message);
+
+				res.status(200).jsonp(projects);
+			});
+		});
 	});
 };
 
@@ -85,11 +109,17 @@ exports.updateProject = function(req, res) {
 
 //DELETE
 exports.deleteProject = function(req, res) {
-	ActivityModel.findById(req.params.id, function(err, activity) {
-		activity.remove(function(err) {
+	projectModel.findById(req.params.id, function(err, project) {
+		project.remove(function(err) {
 			if(err) return res.send(500, err.message);
-      		res.status(200).jsonp(req.params.id);
-		    console.log('DELETE /activities/' + req.params.id);
+
+      		/*res.status(200).jsonp(req.params.id);*/
+		    console.log('DELETE /projects/' + req.params.id);
+			projectModel.find(function(err, projects) {
+			    if(err) res.send(500, err.message);
+
+				res.status(200).jsonp(projects);
+			});
 		})
 	});
 };

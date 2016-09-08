@@ -9,21 +9,28 @@ angular.module('workApp', ['chart.js'])
         $scope.users={};
         $scope.projects={};
         $scope.currentInclude='login.html';
+        var refreshTime=20000;
         /* DASHBOARD initialization */
         $scope.dashboardInit = function(){
             if(localStorage.getItem('owt_token')){// adding token to the headers
                 $http.defaults.headers.post['X-Access-Token'] = localStorage.getItem('owt_token');
+                $http.defaults.headers.post['Content-Type'] = 'application/json';
                 $http.defaults.headers.common['X-Access-Token'] = localStorage.getItem('owt_token');
+            }
+            if(localStorage.getItem("owt_user")){
+                $scope.user=JSON.parse(localStorage.getItem("owt_user"));
+            }else{
+                $scope.currentInclude="login.html";
             }
 
             //getting users
             $http.get(urlapi + 'users')
             .success(function(data, status, headers,config){
                 if(data.success==false){
-                    localStorage.removeItem("owt_token");
+                    /*localStorage.removeItem("owt_token");
                     localStorage.removeItem("owt_user");
                     $scope.currentInclude="login.html";
-                    console.log("token ended");
+                    console.log("token ended");*/
                 }else{
                     console.log(data);
                     $scope.users=data;
@@ -64,7 +71,7 @@ angular.module('workApp', ['chart.js'])
             $scope.dashboardInit();
             intervalGetData = $interval(function(){
                 $scope.dashboardInit();
-            }, 2000);
+            }, refreshTime);
         }else{
             $scope.currentInclude="login.html";
         }
@@ -107,7 +114,7 @@ angular.module('workApp', ['chart.js'])
 
                         intervalGetData = $interval(function(){
                             $scope.dashboardInit();
-                        }, 2000);
+                        }, refreshTime);
                     }else{
                         toastr.error(response.data.message);
                     }
@@ -159,6 +166,7 @@ angular.module('workApp', ['chart.js'])
         }).then(function(response) {
             console.log("project posted");
             console.log(response);
+            $scope.projects=response.data;
             toastr.success("project created at server");
             $scope.newproject={};
         },
@@ -179,13 +187,42 @@ angular.module('workApp', ['chart.js'])
         $scope.editingProject=false;
     };
     $scope.removeProject = function(index){
-        $scope.projects.splice(index, 1);
-        localStorage.setItem("w_l_projects", angular.toJson($scope.projects));
-        $scope.projectSelect(0);
+        /*$scope.projects.splice(index, 1);
+        localStorage.setItem("w_l_projects", angular.toJson($scope.projects));*/
+        $http({
+            url: urlapi + 'projects/' + $scope.projects[index]._id,
+            method: "DELETE",
+            data: $scope.user._id
+        }).then(function(response) {
+            console.log(response);
+            $scope.projects=response.data;
+            $scope.projectSelect(null);
+        },
+        function(response) {// failed
+        });
     };
+    $scope.currentprojectIndex;
     $scope.projectSelect = function(index){
         $scope.btnStop();
+        $scope.currentprojectIndex=index;
         $scope.currentproject=$scope.projects[index];
+    };
+
+    $scope.joinProject = function(){
+        console.log($scope.user);
+        $http({
+            url: urlapi + 'projects/'+$scope.currentproject._id+'/adduser',
+            method: "PUT",
+            data: $scope.user
+        }).then(function(response) {
+            console.log("project joined");
+            $scope.projects=response.data;
+            //re select currentproject
+            $scope.currentproject=$scope.projects[$scope.currentprojectIndex];
+            toastr.success("project joined");
+        },
+        function(response) {// failed
+        });
     };
     var interval;
     $scope.currentStrike=0;
@@ -197,6 +234,15 @@ angular.module('workApp', ['chart.js'])
             $scope.currentStrike++;
             $scope.currentproject.totaltime++;
         }, 1000);
+        $http({
+            url: urlapi + 'users',
+            method: "POST",
+            data: $scope.user
+        }).then(function(response) {
+            $scope.currentInclude="login.html";
+        },
+        function(response) {// failed
+        });
     };
     $scope.btnStop = function(){
         $interval.cancel(interval);

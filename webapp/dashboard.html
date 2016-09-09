@@ -79,7 +79,7 @@
                           <p class="grey-text">{{project.description}}</p>
                           <p class="grey-text">{{project.totaltime | secondsToDateTime | date:'HH:mm:ss'}}</p>
                           <p class="grey-text">
-                              <div ng-repeat="user in project.users">{{user}}</div>
+                              <div ng-repeat="user in project.users">{{user.username}}</div>
                           </p>
                       </a>
                   </div>
@@ -122,17 +122,17 @@
                     <p>
                         Total time: {{currentproject.totaltime | secondsToDateTime | date:'HH:mm:ss'}}
                     </p>
-                    <p>
-                        Current strike time: <b>{{currentStrike | secondsToDateTime | date:'HH:mm:ss'}}</b>
+                    <p ng-repeat="user in currentproject.users">
+                        {{user.username}}: <b>{{user.time | secondsToDateTime | date:'HH:mm:ss'}}</b>
                     </p>
 
                 </div>
                 <div class="card-action">
-                    <div ng-show="currentproject.users.indexOf(user.username)!=-1">
+                    <div ng-show="arrayObjectIndexOf(currentproject.users, user.username, 'username')!=-1">
                         <a ng-click="btnWork()" ng-show="!working" class="waves-effect waves-light btn green lighten-2">Work!</a>
                         <a ng-click="btnStop()" ng-show="working" class="waves-effect waves-light btn red lighten-2">Stop!</a>
                     </div>
-                    <div ng-show="currentproject.users.indexOf(user.username)==-1">
+                    <div ng-show="arrayObjectIndexOf(currentproject.users, user.username, 'username')==-1">
                         <a ng-click="joinProject()" class="waves-effect waves-light btn blue lighten-2">Join!</a>
                     </div>
 

@@ -1,5 +1,6 @@
 //File: controllers/projectController.js
 var mongoose = require('mongoose');
+var moment = require('moment');
 var projectModel  = mongoose.model('projectModel');
 
 var userModel  = mongoose.model('userModel');
@@ -75,7 +76,11 @@ exports.addUserToProject = function(req, res) {
 	console.log(req.body);
 	projectModel.findById(req.params.id, function(err, project) {
 		console.log(project);
-		project.users.push(req.body.username);
+		var auxUser={
+			username: req.body.username,
+			time: 0
+		};
+		project.users.push(auxUser);
 		console.log(project.users);
 		project.save(function(err) {
 			if(err) return res.send(500, err.message);
@@ -117,6 +122,14 @@ exports.userStopWorking = function(req, res) {
 			if((project.workStrikes[i].username==req.body.username)&&(project.workStrikes[i].end==null))
 			{
 				project.workStrikes[i].end= new Date();
+				project.workStrikes[i].time=moment(project.workStrikes[i].end).diff(project.workStrikes[i].start, 'seconds');
+				for(var j=0; j<project.users.length; j++)
+				{
+					if(project.users[j].username==req.body.username)
+					{
+						project.users[j].time+=project.workStrikes[i].time;
+					}
+				}
 			}
 		}
 		console.log(project);

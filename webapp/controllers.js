@@ -54,6 +54,10 @@ angular.module('workApp', ['chart.js'])
                     $scope.currentInclude="login.html";
                     console.log("token ended");
                 }else{
+                    for(var i=0; i<data.length; i++)
+                    {
+                        data[i].chart=translateWorkStrikes2Chart(data[i].workStrikes);
+                    }
                     console.log(data);
                     $scope.projects=data;
                 }
@@ -257,6 +261,11 @@ angular.module('workApp', ['chart.js'])
                 data: $scope.user
             }).then(function(response) {
                 console.log(response);
+
+                for(var i=0; i<response.data.length; i++)
+                {
+                    response.data[i].chart=translateWorkStrikes2Chart(response.data[i].workStrikes);
+                }
                 $scope.projects=response.data;
             },
             function(response) {// failed
@@ -278,6 +287,19 @@ angular.module('workApp', ['chart.js'])
             window.open(urlCode);
         }
     };
+    $scope.arrayObjectIndexOf = function(myArray, searchTerm, property) {
+        if(myArray)
+        {
+            for(var i = 0, len = myArray.length; i < len; i++) {
+                if (myArray[i][property] === searchTerm){
+                    //console.log("i: " + i);
+                    return i;
+                }
+            }
+        }
+        //console.log("i: -1");
+        return -1;
+    }
 
     //chart
     /*$scope.chart={
@@ -297,3 +319,22 @@ angular.module('workApp', ['chart.js'])
         return new Date(2016, 0, 1).setSeconds(seconds);
     };
 }]);
+
+
+
+function translateWorkStrikes2Chart(workStrikes){
+	var auxChart={
+		labels: [],
+		series: ['working'],
+		data: []
+	};
+    if(workStrikes)
+    {
+    	for(var i=0; i<workStrikes.length; i++)
+    	{
+    		auxChart.labels.push(workStrikes[i].username);
+    		auxChart.data.push(workStrikes[i].time);
+    	}
+    }
+    	return(auxChart);
+}

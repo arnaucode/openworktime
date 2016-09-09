@@ -129,8 +129,8 @@
                 </div>
                 <div class="card-action">
                     <div ng-show="arrayObjectIndexOf(currentproject.users, user.username, 'username')!=-1">
-                        <a ng-click="btnWork()" ng-show="!working" class="waves-effect waves-light btn green lighten-2">Work!</a>
-                        <a ng-click="btnStop()" ng-show="working" class="waves-effect waves-light btn red lighten-2">Stop!</a>
+                        <a ng-click="btnWork()" ng-show="!user.working" class="waves-effect waves-light btn green lighten-2">Work!</a>
+                        <a ng-click="btnStop()" ng-show="user.working" class="waves-effect waves-light btn red lighten-2">Stop!</a>
                     </div>
                     <div ng-show="arrayObjectIndexOf(currentproject.users, user.username, 'username')==-1">
                         <a ng-click="joinProject()" class="waves-effect waves-light btn blue lighten-2">Join!</a>

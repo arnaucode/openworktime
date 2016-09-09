@@ -112,7 +112,19 @@ exports.userStartWorking = function(req, res) {
 				res.status(200).jsonp(projects);
 			});
 		});
+
+		userModel.findById(req.body._id, function(err, user) {
+			user.working=true;
+
+			user.save(function(err) {
+				if(err) return res.send(500, err.message);
+				console.log("user working=true");
+			});
+		});
+
 	});
+
+
 };
 exports.userStopWorking = function(req, res) {
 	console.log("userStopWorking");
@@ -140,6 +152,15 @@ exports.userStopWorking = function(req, res) {
 			    if(err) res.send(500, err.message);
 
 				res.status(200).jsonp(projects);
+			});
+		});
+
+		userModel.findById(req.body._id, function(err, user) {
+			user.working=false;
+
+			user.save(function(err) {
+				if(err) return res.send(500, err.message);
+				console.log("user working=false");
 			});
 		});
 	});

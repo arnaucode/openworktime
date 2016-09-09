@@ -1,3 +1,4 @@
+var urlapi = "http://192.168.1.41:3000/api/";
 var urlapi = "http://localhost:3000/api/";
 
 angular.module('workApp', ['chart.js'])
@@ -10,6 +11,22 @@ angular.module('workApp', ['chart.js'])
         $scope.projects={};
         $scope.currentInclude='login.html';
         var refreshTime=20000;
+        $scope.getLoggedUser = function(){
+            //get logged user
+            $http.get(urlapi + 'users/byusername/' + $scope.user.username)
+                .success(function(data, status, headers,config){
+                    console.log(data);
+                    $scope.user=data;
+                })
+                .error(function(data, status, headers,config){
+                    console.log("server not responding, data error");
+                    toastr.error("server not responding");
+                    $scope.$broadcast('scroll.refreshComplete');//refresher stop
+                })
+                .then(function(result){
+                    users = result.data;
+            });
+        };
         /* DASHBOARD initialization */
         $scope.dashboardInit = function(){
             if(localStorage.getItem('owt_token')){// adding token to the headers
@@ -23,6 +40,7 @@ angular.module('workApp', ['chart.js'])
                 $scope.currentInclude="login.html";
             }
 
+            $scope.getLoggedUser();
             //getting users
             $http.get(urlapi + 'users')
             .success(function(data, status, headers,config){
@@ -76,9 +94,17 @@ angular.module('workApp', ['chart.js'])
 
 
         $scope.user={};
+
+        $http.defaults.headers.post['Content-Type'] = 'application/json';
         if(localStorage.getItem("owt_user")){
+            if(localStorage.getItem('owt_token')){// adding token to the headers
+                $http.defaults.headers.post['X-Access-Token'] = localStorage.getItem('owt_token');
+                $http.defaults.headers.post['Content-Type'] = 'application/json';
+                $http.defaults.headers.common['X-Access-Token'] = localStorage.getItem('owt_token');
+            }
             $scope.user=JSON.parse(localStorage.getItem("owt_user"));
             $scope.currentInclude="dashboard.html";
+            $scope.getLoggedUser();
             $scope.dashboardInit();
             intervalGetData = $interval(function(){
                 $scope.dashboardInit();
@@ -153,7 +179,7 @@ angular.module('workApp', ['chart.js'])
 
 
         //localStorage.clear();
-        $scope.working=false;
+        //$scope.working=false;
     $scope.currentproject={};
 
     $scope.newproject={};
@@ -214,7 +240,8 @@ angular.module('workApp', ['chart.js'])
     };
     $scope.currentprojectIndex;
     $scope.projectSelect = function(index){
-        $scope.btnStop();
+        //$scope.btnStop();
+        console.log(index);
         $scope.currentprojectIndex=index;
         $scope.currentproject=$scope.projects[index];
     };
@@ -239,7 +266,7 @@ angular.module('workApp', ['chart.js'])
     $scope.currentStrike=0;
     $scope.btnWork = function(){
         //$scope.editingProject=false;
-        $scope.working=true;
+        $scope.user.working=true;
         $http({
             url: urlapi + 'projects/' + $scope.currentproject._id + '/startworking',
             method: "PUT",
@@ -247,14 +274,15 @@ angular.module('workApp', ['chart.js'])
         }).then(function(response) {
             console.log(response);
             $scope.projects=response.data;
+            $scope.getLoggedUser();
         },
         function(response) {// failed
         });
     };
     $scope.btnStop = function(){
-        if($scope.working==true)
+        if($scope.user.working==true)
         {
-            $scope.working=false;
+            //$scope.user.working=false;
             $http({
                 url: urlapi + 'projects/' + $scope.currentproject._id + '/stopworking',
                 method: "PUT",
@@ -267,6 +295,7 @@ angular.module('workApp', ['chart.js'])
                     response.data[i].chart=translateWorkStrikes2Chart(response.data[i].workStrikes);
                 }
                 $scope.projects=response.data;
+                $scope.getLoggedUser();
             },
             function(response) {// failed
             });

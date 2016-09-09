@@ -11,6 +11,7 @@ var userSchema = new Schema({
     github: { type: String },
     web: { type: String },
     projects: { type: String },
-    connected: { type: Boolean }
+    connected: { type: Boolean },
+    working: { type: Boolean }
 })
 module.exports = mongoose.model('userModel', userSchema);

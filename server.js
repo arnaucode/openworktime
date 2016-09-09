@@ -127,6 +127,11 @@ apiRoutes.route('/projects/:id')
 apiRoutes.route('/projects/:id/adduser')
     .put(projectCtrl.addUserToProject);
 
+apiRoutes.route('/projects/:id/startworking')
+    .put(projectCtrl.userStartWorking);
+apiRoutes.route('/projects/:id/stopworking')
+    .put(projectCtrl.userStopWorking);
+
 app.use('/api', apiRoutes);
 // end of API routes -------------------------------------
 

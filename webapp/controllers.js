@@ -27,10 +27,10 @@ angular.module('workApp', ['chart.js'])
             $http.get(urlapi + 'users')
             .success(function(data, status, headers,config){
                 if(data.success==false){
-                    /*localStorage.removeItem("owt_token");
+                    localStorage.removeItem("owt_token");
                     localStorage.removeItem("owt_user");
                     $scope.currentInclude="login.html";
-                    console.log("token ended");*/
+                    console.log("token ended");
                 }else{
                     console.log(data);
                     $scope.users=data;
@@ -48,8 +48,15 @@ angular.module('workApp', ['chart.js'])
             //getting projects
             $http.get(urlapi + 'projects')
             .success(function(data, status, headers,config){
-                console.log(data);
-                $scope.projects=data;
+                if(data.success==false){
+                    localStorage.removeItem("owt_token");
+                    localStorage.removeItem("owt_user");
+                    $scope.currentInclude="login.html";
+                    console.log("token ended");
+                }else{
+                    console.log(data);
+                    $scope.projects=data;
+                }
             })
             .error(function(data, status, headers,config){
                 console.log("server not responding, data error");
@@ -227,32 +234,33 @@ angular.module('workApp', ['chart.js'])
     var interval;
     $scope.currentStrike=0;
     $scope.btnWork = function(){
-        $scope.editingProject=false;
+        //$scope.editingProject=false;
         $scope.working=true;
-        $scope.currentStrike=0;
-        interval = $interval(function(){
-            $scope.currentStrike++;
-            $scope.currentproject.totaltime++;
-        }, 1000);
         $http({
-            url: urlapi + 'users',
-            method: "POST",
+            url: urlapi + 'projects/' + $scope.currentproject._id + '/startworking',
+            method: "PUT",
             data: $scope.user
         }).then(function(response) {
-            $scope.currentInclude="login.html";
+            console.log(response);
+            $scope.projects=response.data;
         },
         function(response) {// failed
         });
     };
     $scope.btnStop = function(){
-        $interval.cancel(interval);
         if($scope.working==true)
         {
             $scope.working=false;
-            $scope.currentproject.chart.labels.push("work strike " + $scope.currentproject.chart.labels.length);
-            $scope.currentproject.chart.data.push($scope.currentStrike);
-
-            localStorage.setItem("w_l_projects", angular.toJson($scope.projects));
+            $http({
+                url: urlapi + 'projects/' + $scope.currentproject._id + '/stopworking',
+                method: "PUT",
+                data: $scope.user
+            }).then(function(response) {
+                console.log(response);
+                $scope.projects=response.data;
+            },
+            function(response) {// failed
+            });
         }
 
 

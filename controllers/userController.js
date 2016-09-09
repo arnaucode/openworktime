@@ -143,6 +143,7 @@ exports.login = function(req, res) {
 	//console.log(user);
 
 	//update connected=true
+
 	user.connected= true;
 	user.save(function(err) {
 		if(err) return res.send(500, err.message);
@@ -174,16 +175,18 @@ exports.logout = function(req, res) {
 	  } else if (user) {
 
 
-	   //update connected=true
-	   user.connected= false;
-	   user.save(function(err) {
-		   if(err) return res.send(500, err.message);
-	   });
-		  // return the information including token as JSON
-		  res.json({
-			success: true,
-			message: 'logged out'
-		  });
+		   //update connected=true
+		   user.connected= false;
+		   user.save(function(err) {
+			   if(err) return res.send(500, err.message);
+
+			   // return the information including token as JSON
+	 		  res.json({
+	 			success: true,
+	 			message: 'logged out'
+	 		  });
+		   });
+
 		}
 
 	});

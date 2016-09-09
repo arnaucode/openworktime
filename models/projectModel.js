@@ -7,7 +7,16 @@ var projectSchema = new Schema({
     description: { type: String },
     icon: { type: String },
     users: [{ type: String }],
-    chart: { type: String },
+    chart: [{
+        labels: [{ type: String }],
+        series: [{ type: String }],
+        data: [{type: String }]
+    }],
+    workStrikes: [{
+        username: { type: String },
+        start: { type: Date },
+        end: { type: Date }
+    }],
     dateCreation: { type: Date },
     github: { type: String },
     refnum: { type: String }

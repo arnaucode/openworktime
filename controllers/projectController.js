@@ -88,7 +88,49 @@ exports.addUserToProject = function(req, res) {
 		});
 	});
 };
+exports.userStartWorking = function(req, res) {
+	console.log("userStartWorking");
+	projectModel.findById(req.params.id, function(err, project) {
+		var workstrike={
+			username: req.body.username,
+			start: new Date(),
+			end: "",
+		};
+		project.workStrikes.push(workstrike);
+		console.log(project);
+		project.save(function(err) {
+			if(err) return res.send(500, err.message);
 
+			projectModel.find(function(err, projects) {
+			    if(err) res.send(500, err.message);
+
+				res.status(200).jsonp(projects);
+			});
+		});
+	});
+};
+exports.userStopWorking = function(req, res) {
+	console.log("userStopWorking");
+	projectModel.findById(req.params.id, function(err, project) {
+		for(var i=0; i<project.workStrikes.length; i++)
+		{
+			if((project.workStrikes[i].username==req.body.username)&&(project.workStrikes[i].end==null))
+			{
+				project.workStrikes[i].end= new Date();
+			}
+		}
+		console.log(project);
+		project.save(function(err) {
+			if(err) return res.send(500, err.message);
+
+			projectModel.find(function(err, projects) {
+			    if(err) res.send(500, err.message);
+
+				res.status(200).jsonp(projects);
+			});
+		});
+	});
+};
 //PUT
 exports.updateProject = function(req, res) {
 	ActivityModel.findById(req.params.id, function(err, tvshow) {

@@ -12,6 +12,7 @@ var userSchema = new Schema({
     web: { type: String },
     projects: { type: String },
     connected: { type: Boolean },
-    working: { type: Boolean }
+    working: { type: Boolean },
+    lastConnection: { type: Date }
 })
 module.exports = mongoose.model('userModel', userSchema);

@@ -10,18 +10,30 @@ angular.module('workApp', ['chart.js'])
         $scope.users={};
         $scope.projects={};
         $scope.currentInclude='login.html';
-        var refreshTime=20000;
+        var refreshTime=10000;//every 10 seconds
+
+        var errorsGettingData=0;
+        $scope.serverNotResponding = function(){
+            console.log("server not responding, data error");
+            toastr.error("server not responding");
+            $scope.$broadcast('scroll.refreshComplete');//refresher stop
+            errorsGettingData++;
+            console.log("errorsGettingData: " + errorsGettingData);
+            if(errorsGettingData>3)
+            {
+                $interval.cancel(intervalGetData);
+                $scope.currentInclude="login.html";
+            }
+        };
         $scope.getLoggedUser = function(){
             //get logged user
-            $http.get(urlapi + 'users/byusername/' + $scope.user.username)
+            $http.get(urlapi + 'users/loggeduser/' + $scope.user.username)
                 .success(function(data, status, headers,config){
                     console.log(data);
                     $scope.user=data;
                 })
                 .error(function(data, status, headers,config){
-                    console.log("server not responding, data error");
-                    toastr.error("server not responding");
-                    $scope.$broadcast('scroll.refreshComplete');//refresher stop
+                    $scope.serverNotResponding();
                 })
                 .then(function(result){
                     users = result.data;
@@ -37,10 +49,12 @@ angular.module('workApp', ['chart.js'])
             if(localStorage.getItem("owt_user")){
                 $scope.user=JSON.parse(localStorage.getItem("owt_user"));
             }else{
-                $scope.currentInclude="login.html";
+
+                $scope.serverNotResponding();
             }
 
             $scope.getLoggedUser();
+
             //getting users
             $http.get(urlapi + 'users')
             .success(function(data, status, headers,config){

@@ -32,6 +32,10 @@ var userCtrl = require('./controllers/userController');
 var projectMdl     = require('./models/projectModel')(app, mongoose);
 var projectCtrl = require('./controllers/projectController');
 
+
+var intervalComprovations = require('./intervalComprovations');
+intervalComprovations.lastConnectionUser();
+
 /*// Example Route
 var router = express.Router();
 router.get('/', function(req, res) {
@@ -100,8 +104,8 @@ apiRoutes.route('/users')
 
 apiRoutes.route('/users/:id')
     .get(userCtrl.findById);
-apiRoutes.route('/users/byusername/:username')
-    .get(userCtrl.findUserByUsername);
+apiRoutes.route('/users/loggeduser/:username')
+    .get(userCtrl.findLoggedUserByUsername);
 apiRoutes.route('/projects/user/:username')
     .get(projectCtrl.findAllProjectsFromUsername);
 

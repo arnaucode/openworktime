@@ -53,12 +53,33 @@ exports.findUserByUsername = function(req, res) {
           // return the information including token as JSON
           //res.jsonp(user);
 		  user.password="";
-          console.log(user);
+          //console.log(user);
 	  		res.status(200).jsonp(user[0]);
 
 
       }
 
+    });
+};
+exports.findLoggedUserByUsername = function(req, res) {
+    userModel.find({
+      username: req.params.username
+  }, function(err, user) {
+      if (err) throw err;
+      if (!user) {
+        res.json({ success: false, message: 'no user found' });
+    } else if (user) {
+          //console.log(user[0]);
+	  		//res.status(200).jsonp(user[0]);
+			user[0].connected= true;
+			user[0].lastConnection= new Date(); //adds the last connection time
+ 		   user[0].save(function(err) {
+ 			   if(err) return res.send(500, err.message);
+
+	   		  user[0].password="";
+			  res.status(200).jsonp(user[0]);
+ 		   });
+      }
     });
 };
 

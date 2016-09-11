@@ -39,6 +39,7 @@ angular.module('workApp', ['chart.js'])
                     users = result.data;
             });
         };
+        $scope.countingTime;
         /* DASHBOARD initialization */
         $scope.dashboardInit = function(){
             if(localStorage.getItem('owt_token')){// adding token to the headers
@@ -102,7 +103,6 @@ angular.module('workApp', ['chart.js'])
             .then(function(result){
                 users = result.data;
             });
-
         };
         /* </DASHBOARD initialization */
 
@@ -255,7 +255,6 @@ angular.module('workApp', ['chart.js'])
     $scope.currentprojectIndex;
     $scope.projectSelect = function(index){
         //$scope.btnStop();
-        console.log(index);
         $scope.currentprojectIndex=index;
         $scope.currentproject=$scope.projects[index];
     };
@@ -310,6 +309,7 @@ angular.module('workApp', ['chart.js'])
                 }
                 $scope.projects=response.data;
                 $scope.getLoggedUser();
+                $scope.currentproject=$scope.projects[$scope.currentprojectIndex];
             },
             function(response) {// failed
             });

@@ -52,7 +52,8 @@
             <li ng-repeat="user in users" class="collection-item avatar blue-grey darken-3">
                 <img ng-src="img/avatars/{{user.avatar}}.png" class="circle">
                 <span class="title">{{user.username}}</span>
-                <span ng-show="user.connected" class="new badge" data-badge-caption="online"></span>
+                <span ng-show="user.connected" class="new badge blue" data-badge-caption="online"></span>
+                <span ng-show="user.working" class="new badge" data-badge-caption="working"></span>
                 <p>{{user.description}}</p>
             </li>
         </ul>
@@ -120,7 +121,7 @@
                         {{currentproject.title}}
                     </span>
                     <p>
-                        Total time: {{currentproject.totaltime | secondsToDateTime | date:'HH:mm:ss'}}
+                        Current strike time: {{currentproject.totaltime | secondsToDateTime | date:'HH:mm:ss'}}
                     </p>
                     <p ng-repeat="user in currentproject.users">
                         {{user.username}}: <b>{{user.time | secondsToDateTime | date:'HH:mm:ss'}}</b>
@@ -130,6 +131,10 @@
                 <div class="card-action">
                     <div ng-show="arrayObjectIndexOf(currentproject.users, user.username, 'username')!=-1">
                         <a ng-click="btnWork()" ng-show="!user.working" class="waves-effect waves-light btn green lighten-2">Work!</a>
+
+                        <div ng-show="user.working" class="progress">
+                            <div class="indeterminate"></div>
+                        </div>
                         <a ng-click="btnStop()" ng-show="user.working" class="waves-effect waves-light btn red lighten-2">Stop!</a>
                     </div>
                     <div ng-show="arrayObjectIndexOf(currentproject.users, user.username, 'username')==-1">

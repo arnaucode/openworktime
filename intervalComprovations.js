@@ -32,6 +32,7 @@ exports.lastConnectionUser = function() {
                  			   if(err) return res.send(500, err.message);
                                //console.log("user: " + users[i].username + ", connected=false");
                            });
+                           //falta posar el .working a false, i si estava a true, anar al projecte i posar l'hora actual com a final al workStrike
                         }
                     }
                 }
